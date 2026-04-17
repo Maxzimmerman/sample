@@ -3,7 +3,7 @@ import {
     RouteObject
 } from "react-router";
 
-import { paths } from "./paths";
+import paths  from "./paths";
 
 import Product from "../modules/products/Product";
 import ProductDetail from "../modules/product-details/ProductDetail";
