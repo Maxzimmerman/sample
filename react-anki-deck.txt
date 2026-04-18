@@ -1,0 +1,37 @@
+#separator:tab
+#html:false
+In `export default App`, what is `default`?	A keyword marking App as the module's default export. It is NOT a type. A file can have at most one default export but many named exports.
+How do you import a default export?	Without braces: `import App from './App'`. You can rename it to anything on the import side.
+How do you import a named export?	With braces: `import { paths } from './paths'`. The name must match the exported name (use `as` to rename).
+Can you combine a default import and named imports?	Yes: `import React, { useState } from 'react'`. `React` is the default, `useState` is named.
+What is a React component under the hood?	A plain function. Modern React has no classes, no instances, no mutable objects. A component takes props and returns a value (JSX).
+What does JSX compile to?	Calls to `React.createElement(type, props, ...children)`, producing plain objects like `{ type, props, children }`. JSX is data, not an instance.
+Who actually calls your component functions?	React's runtime. You never call `Component()` directly. Writing `<Component />` is just data telling React to call it later.
+What happens when a component's props or state change?	React re-calls the component function. Each call returns a fresh JSX tree; React diffs it against the previous result and updates only the DOM that changed.
+What is the `children` prop?	When you write `<Parent><Child/></Parent>`, JSX passes `<Child/>` as a special prop called `children`. The parent decides where (or whether) to render it.
+How does component nesting work in React?	Function composition over a tree. Parents receive children as a value and render them somewhere inside their own returned JSX.
+What is `createBrowserRouter(routes)`?	A factory function that takes a routes array and returns a router object bundling the routing table, URL matcher, and browser History API subscription.
+Does RouterProvider intercept HTTP requests?	No. It's client-side. It listens to browser URL changes via the History API (pushState / popstate) and renders the matching route's element. No network involved.
+How many router objects exist in a typical SPA?	One. Created once with `createBrowserRouter` and passed once to `<RouterProvider router={router} />`. Descendants access it via hooks like `useNavigate`, `useParams`, `useLocation`.
+What is a routes array like `RouteObject[]`?	A plain array of `{ path, element }` objects — a routing table. `RouteObject[]` is just the TypeScript type annotation. Not a class.
+What does `useTheme()` do?	Reads the theme object that `ThemeProvider` published to context. It does NOT create or copy anything — it returns a reference to the single theme created upstream.
+What problem does React Context solve?	Prop drilling — passing a value through many intermediate components just so a deep child can use it.
+What is a React Context under the hood?	A plain JavaScript object with special fields (a `$$typeof` symbol, `_currentValue`, a `.Provider`, a `.Consumer`). React uses the object's identity as a unique key.
+What does `React.createContext(defaultValue)` return?	An object containing `.Provider` and `.Consumer` components plus an internal current value. The object itself acts as the key matching Providers to `useContext` calls.
+What does `<SomeContext.Provider value={x}>` do internally?	React pushes `x` onto an internal stack keyed by the context object while rendering the children, then pops it after.
+What does `useContext(SomeContext)` do?	Walks up the current component's fiber tree, finds the nearest Provider for that context object, and returns its `value`.
+What is a fiber in React?	An internal node in React's component tree (one fiber per rendered component). Each fiber knows its parent, enabling upward walks for context lookup.
+How does React match a `useContext` call to a Provider?	By object identity (`===`). The same context object must be passed both to create the Provider and to `useContext`.
+How is React Context similar to Elixir's `Process.put/get`?	It's a form of dynamic scoping — but scoped to a render subtree rather than a process. Providers set values for descendants; useContext reads them without explicit prop passing.
+What is prop drilling?	Passing a prop through many layers of components that don't use it themselves, just to get it to a deep child. Context avoids this.
+Why is `<ThemeProvider>` placed as the outermost element?	So every descendant falls inside its context subtree. Only components rendered inside a Provider can read that Provider's value via the matching hook.
+What happens when a Context Provider's `value` changes?	Every descendant component that reads that context re-renders with the new value.
+What's the mental model for writing React code?	Write pure functions from props → JSX. React calls them at the right times and syncs the result to the DOM.
+How is `MuiThemeProvider` implemented in one line?	Roughly: `<ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>`. Most "Provider" components are thin wrappers around a Context Provider.
+How is `useTheme()` implemented in one line?	Roughly: `useContext(ThemeContext)`. Most custom `useX` hooks are named wrappers around `useContext`.
+React component = ? (Elixir analogue)	Pure function returning a data structure (like returning a tagged tuple / AST node).
+JSX element = ? (Elixir analogue)	A tagged tuple / AST node describing what to render.
+`children` prop = ? (Elixir analogue)	A value (subtree) passed as an argument to a function.
+Context + `useTheme` = ? (Elixir analogue)	Dynamic scope / `Process.get` — but over a render subtree instead of a process.
+`RouterProvider` = ? (Elixir analogue)	Pattern-matching on the current URL and dispatching to the corresponding element.
+Are React components called once or many times?	Many times. Every time props or state change, React re-calls the function. `useState` / `useTheme` work because React keeps state on the side and hands it back on each call.
