@@ -4,7 +4,7 @@ import useProductsStore from "./store";
 
 export default function Product() {
     const theme = useTheme();
-    const { products, addProduct } = useProductsStore();
+    const { products, addProduct, getProducts } = useProductsStore();
 
     return (
        <Box sx={{ p:2, bgcolor: 'background.paper' }}>
@@ -23,6 +23,14 @@ export default function Product() {
                     onClick={() => addProduct({ id: products.length + 1, name: `Product ${products.length + 1}` })}>
                 Add Product
             </Button>
+
+            <Button variant="outlined" 
+                    color="secondary" 
+                    sx={{ ml: 2 }}
+                    onClick={() => getProducts()}>
+                Log Products
+            </Button>
+
             <Typography variant="h5" sx={{ color: theme.colors.secondary, mb: 2 }}>
                 This is the product list page.
             </Typography>

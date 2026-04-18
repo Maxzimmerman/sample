@@ -8,6 +8,8 @@ const MOCK_PRODUCTS: Product[] = [
 
 const prodcutsApi = {
     getProducts: async (): Promise<Product[]> => {
+        // const response = await apiClient.get<{ data: Product[] }>(API_ENDPOINTS.PRODUCTS);
+        // return response.data.data;
         await new Promise((resolve) => setTimeout(resolve, 300));
         return MOCK_PRODUCTS;
     },
