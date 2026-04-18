@@ -1,13 +1,16 @@
-import apiClient from './coreApiClient';
-import { API_ENDPOINTS } from './endpoints';
 import { Product } from '../modules/products/types';
 
+const MOCK_PRODUCTS: Product[] = [
+    { id: 1, name: 'Apple' },
+    { id: 2, name: 'Banana' },
+    { id: 3, name: 'Cherry' },
+];
 
 const prodcutsApi = {
     getProducts: async (): Promise<Product[]> => {
-        const response = await apiClient.get<{ data: Product[] }>(API_ENDPOINTS.PRODUCTS);
-        return response.data.data;
-    }
-}
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        return MOCK_PRODUCTS;
+    },
+};
 
 export default prodcutsApi;
