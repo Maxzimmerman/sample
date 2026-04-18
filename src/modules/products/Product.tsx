@@ -1,7 +1,10 @@
 import { Box, Typography, useTheme } from "@mui/material";
 
+import useProductsStore from "./store";
+
 export default function Product() {
     const theme = useTheme();
+    const { products } = useProductsStore();
 
     return (
        <Box sx={{ p:2, bgcolor: 'background.paper' }}>
