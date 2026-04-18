@@ -1,4 +1,4 @@
-import apiClient from './apiClient';
+import apiClient from './coreApiClient';
 import { API_ENDPOINTS } from './endpoints';
 import { Product } from '../modules/products/types';
 
