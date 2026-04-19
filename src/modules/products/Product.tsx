@@ -1,39 +1,29 @@
-import { Box, Button, Typography, useTheme } from "@mui/material";
+import { useEffect } from 'react';
+import { Box, Typography } from '@mui/material';
 
-import useProductsStore from "./store";
+import DataGrid from '../../common/components/DataGrid';
+import useProductStore from './store';
+import columns from './columns';
 
 export default function Product() {
-    const theme = useTheme();
-    const { products, addProduct, getProducts } = useProductsStore();
+    const { products, loading, getProducts } = useProductStore();
+
+    useEffect(() => {
+        getProducts();
+    }, [getProducts]);
 
     return (
-       <Box sx={{ p:2, bgcolor: 'background.paper' }}>
-            <Typography variant="h5" sx={{ color: 'primary.main', mb: 2 }}>
-                Product List {products.length}
+        <Box sx={{ p: 2 }}>
+            <Typography variant="h5" sx={{ mb: 2 }}>
+                Products
             </Typography>
-
-            {products.map((p) => (
-                <Typography key={p.id}>
-                    #{p.id} — {p.name}
-                </Typography>
-            ))}
-
-            <Button variant="contained" 
-                    color="primary" 
-                    onClick={() => addProduct({ id: products.length + 1, name: `Product ${products.length + 1}` })}>
-                Add Product
-            </Button>
-
-            <Button variant="outlined" 
-                    color="secondary" 
-                    sx={{ ml: 2 }}
-                    onClick={() => getProducts()}>
-                Log Products
-            </Button>
-
-            <Typography variant="h5" sx={{ color: theme.colors.secondary, mb: 2 }}>
-                This is the product list page.
-            </Typography>
-       </Box>
-    )
+            <Box sx={{ height: 500 }}>
+                <DataGrid
+                    rows={products}
+                    columns={columns}
+                    loading={loading}
+                />
+            </Box>
+        </Box>
+    );
 }

@@ -4,17 +4,18 @@ import productsApi from '../../api/productsApi';
 
 type ProductStore = {
   products: Product[];
-  addProduct: (product: Product) => void;
+  loading: boolean;
   getProducts: () => Promise<void>;
 };
 
 const useProductStore = create<ProductStore>((set) => ({
     products: [],
-    addProduct: (product) => set((state) => ({ products: [...state.products, product] })),
+    loading: false,
     getProducts: async () => {
+        set({ loading: true });
         const products = await productsApi.getProducts();
-        set({ products });
+        set({ products, loading: false });
     },
-}))
+}));
 
 export default useProductStore;
