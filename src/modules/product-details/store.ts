@@ -28,3 +28,5 @@ const useProductDetailStore = create<ProductDetailStore>()((set, get, ...rest) =
         set({ loading: false });
     },
 }));
+
+export default useProductDetailStore;
