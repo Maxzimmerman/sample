@@ -35,10 +35,10 @@ const getChangedFields = <R extends RowDef>(
     return changed as (keyof R)[];
 };
 
-const replaceById = <R extends { id: GridRowId }>(arr: R[], row: R) =>
+const replaceById = <T extends RowDef>(arr: T[], row: T): T[] =>
     arr.map((r) => (r.id === row.id ? row : r));
 
-const removeById = <R extends { id: GridRowId }>(arr: R[], id: GridRowId) =>
+const removeById = <T extends RowDef>(arr: T[], id: GridRowId): T[] =>
     arr.filter((r) => r.id !== id);
 
 export function addRow<R extends RowDef>(
