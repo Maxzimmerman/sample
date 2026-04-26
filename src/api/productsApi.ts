@@ -16,6 +16,14 @@ const productsApi = {
         await new Promise((resolve) => setTimeout(resolve, 300));
         return MOCK_PRODUCTS;
     },
+    getProductById: async (id: string): Promise<Product> => {
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        const product = MOCK_PRODUCTS.find((p) => p.id === parseInt(id));
+        if (!product) {
+            throw new Error('Product not found');
+        }
+        return product;
+    },
 };
 
 export default productsApi;
