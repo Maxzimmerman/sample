@@ -6,7 +6,7 @@ import useProductDetailStore from './store';
 
 export default function ProductDetail() {
     const getProduct = useProductDetailStore((s) => s.getProduct);
-    const { productId } = useParams<{ productId: string }>();
+    const { id } = useParams<{ id: string }>();
 
     useEffect(() => {
         getProduct(
@@ -15,12 +15,14 @@ export default function ProductDetail() {
     }, [getProduct]);
 
     const productDetailsPath = generatePath(paths.productDetail, {
-        productId,
+        id,
     });
 
     return (
         <div>
-            <p>{paths.home}/{paths.product}/{paths.productDetail}</p>
+            <a href={paths.home}>home</a><span> / </span>
+            <a href={paths.product}>products</a><span> / </span>
+            <a href={productDetailsPath}>{id}</a>
             <h1>Product Detail </h1>
         </div>
     )
